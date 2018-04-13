@@ -1,10 +1,12 @@
 defmodule Validator do
   @trasitisions_table [
-    start:    [operator: :error,    number: :number, left: :left,  right: :error],
-    number:   [operator: :operator, number: :number, left: :error, right: :right],
-    operator: [operator: :error,    number: :number, left: :left,  right: :error],
-    left:     [operator: :error,    number: :number, left: :left,  right: :error],
-    right:    [operator: :operator, number: :error,  left: :error, right: :right]
+    start:    [operator: :error,    number: :number, left: :left,  right: :error, point: :error],
+    number:   [operator: :operator, number: :number, left: :error, right: :right, point: :point],
+    operator: [operator: :error,    number: :number, left: :left,  right: :error, point: :error],
+    left:     [operator: :error,    number: :number, left: :left,  right: :error, point: :error],
+    right:    [operator: :operator, number: :error,  left: :error, right: :right, point: :error],
+    point:    [operator: :error,    number: :float,  left: :error, right: :error, point: :error],
+    float:    [operator: :operator, number: :float,  left: :error, right: :right, point: :error],
   ]
 
   def validate(input) do
@@ -13,7 +15,7 @@ defmodule Validator do
       false
     else
       res = loop(:start, transform(g))
-      res == :number or res == :right
+      res == :number or res == :right or res == :float
     end
   end
 
@@ -35,6 +37,7 @@ defmodule Validator do
         g == "+" or g == "-" or g == "*" or g == "/" or g == "^" -> :operator
         g == "(" -> :left
         g == ")" -> :right
+        g == "." -> :point
       end
     end)
   end

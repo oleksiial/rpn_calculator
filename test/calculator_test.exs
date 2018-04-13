@@ -3,7 +3,7 @@ defmodule CalculatorTest do
   doctest Calculator
 
   test "calculate" do
-    # assert Calculator.calculate("3.5+4") == 7
+    assert Calculator.calculate("3.5+4") == 7.5
     assert Calculator.calculate("3+4") == 7
     assert Calculator.calculate("3+4*2") == 11
     assert Calculator.calculate("(3+4)*2") == 14
