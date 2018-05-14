@@ -9,9 +9,16 @@ defmodule RPNConverter do
       |> Enum.map(&Enum.join &1)    # ["(", "42", "+", "3", ")/", "5"]
       |> Enum.map(&parse &1)        # ["(", 42, "+", 3, [")", "/"], 5]
       |> List.flatten()             # ["(", 42, "+", 3, ")", "/", 5]
+      |> handle_unary_minus()
       |> input_loop([], [])
     (Enum.filter(res, fn c -> c != '|' end) |> Enum.reverse()) ++ stack
   end
+
+  defp handle_unary_minus(["-"|t]), do: [0, "-" | handle_unary_minus_loop(t)]
+  defp handle_unary_minus(list), do: handle_unary_minus_loop(list)
+  defp handle_unary_minus_loop(["("|["-"|t]]), do: ["(", 0, "-" | handle_unary_minus_loop(t)]
+  defp handle_unary_minus_loop([h|[]]), do: [h]
+  defp handle_unary_minus_loop([h|t]), do: [h | handle_unary_minus_loop(t)]
 
   defp is_operator(c), do: String.contains?("+-*/^", c)
   defp parse(c) do

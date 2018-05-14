@@ -1,9 +1,7 @@
 defmodule Calculator do
-  def calculate(input) do
-    if (Validator.validate(input)) do
-      loop(RPNConverter.convert(input), [])
-    end
-  end
+  def calculate(input), do: print_result(input, Validator.validate(input))
+  defp print_result(input, true), do: RPNConverter.convert(input) |> loop([])
+  defp print_result(_input, false), do: "wrong input"
 
   defp loop([], [h|_]), do: h
   defp loop([h|t], stack) when is_number(h), do: loop(t, [h | stack])

@@ -12,5 +12,10 @@ defmodule CalculatorTest do
     assert Calculator.calculate("((3+1)*2)/2") == 4
     assert Calculator.calculate("(30-100)/2+35") == 0
     assert Calculator.calculate("((30+105-(5+35))/5)^(4/2-2)") == 1
+    assert Calculator.calculate("3+(-4)") == -1
+    assert Calculator.calculate("3+(-4+4)") == 3
+    assert Calculator.calculate("3-(-4+4)") == 3
+    assert Calculator.calculate("-(-4+5)") == -1
+    assert Calculator.calculate("-((-4)+5)") == -1
   end
 end
